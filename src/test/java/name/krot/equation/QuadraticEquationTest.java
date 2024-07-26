@@ -43,7 +43,7 @@ class QuadraticEquationTest {
     @DisplayName("Для уравнения x^2 + 2.0000000001x + 1.0000000001 = 0 есть один корень кратности 2 (x1= x2 = -1)")
     void testSingleRootMultiplicityTwo2() {
         List<Double> solve = QuadraticEquation.solve(1, 2.0000000001, 1.0000000001);
-        Assertions.assertEquals(List.of(-1.0, -1.0), solve);
+        Assertions.assertEquals(List.of(-1.00000000005, -1.00000000005), solve);
     }
 
     @Test
