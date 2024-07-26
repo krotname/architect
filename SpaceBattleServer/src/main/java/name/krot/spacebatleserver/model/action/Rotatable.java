@@ -1,6 +1,6 @@
 package name.krot.spacebatleserver.model.action;
 
-@FunctionalInterface
 public interface Rotatable {
-    void rotate();
+    int getAngular();
+    void setAngular(int angular);
 }

@@ -1,26 +1,17 @@
 package name.krot.spacebatleserver.model;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import name.krot.spacebatleserver.model.action.Movable;
-import name.krot.spacebatleserver.model.action.Rotatable;
 
-import java.util.UUID;
+import java.util.List;
 
 @Jacksonized
-@Builder
-@Value
-public class SpaceShip implements Movable, Rotatable {
-    UUID id;
-
-    @Override
-    public void move() {
-
-    }
-
-    @Override
-    public void rotate() {
-
-    }
+@SuperBuilder
+public class SpaceShip extends MovableRotatableObject {
+    @Setter
+    @Getter
+    List<PhotonTorpedo> photonTorpedos;
 }

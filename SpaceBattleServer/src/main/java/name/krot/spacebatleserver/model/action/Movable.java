@@ -1,6 +1,9 @@
 package name.krot.spacebatleserver.model.action;
 
-@FunctionalInterface
+import java.awt.*;
+
 public interface Movable {
-    void move();
+    Point getVelocity();
+    Point getPosition();
+    void setPosition(Point point);
 }
