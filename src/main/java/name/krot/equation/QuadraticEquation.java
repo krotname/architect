@@ -39,33 +39,28 @@ public class QuadraticEquation {
 
     public static List<Double> solve(double a, double b, double c) {
         if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c)) {
-            throw new IllegalArgumentException("Coefficients cannot be NaN.");
+            throw new IllegalArgumentException("Coefficients cannot be NaN");
         }
-
         if (Double.isInfinite(a) || Double.isInfinite(b) || Double.isInfinite(c)) {
-            throw new IllegalArgumentException("Coefficients cannot be infinite.");
+            throw new IllegalArgumentException("Coefficients cannot be infinite");
+        }
+        if (a == 0) {
+            throw new IllegalArgumentException("Coefficient a cannot be zero");
         }
 
-        double epsilon = 1e-10;
-
-        if (Math.abs(a) < epsilon) {
-            throw new IllegalArgumentException("Coefficient 'a' cannot be zero.");
-        }
-
+        double discriminant = b * b - 4 * a * c;
         List<Double> roots = new ArrayList<>();
 
-        double discriminant = b * b - 4 * Math.abs(a) * c;
-
-        if (discriminant > epsilon) {
+        if (discriminant > 0) {
             double sqrtDiscriminant = Math.sqrt(discriminant);
-            double x1 = (-b + sqrtDiscriminant) / (2 * a);
-            double x2 = (-b - sqrtDiscriminant) / (2 * a);
-            roots.add(x1);
-            roots.add(x2);
-        } else if (Math.abs(discriminant) <= epsilon) {
+            double root1 = (-b + sqrtDiscriminant) / (2 * a);
+            double root2 = (-b - sqrtDiscriminant) / (2 * a);
+            roots.add(root1);
+            roots.add(root2);
+        } else if (discriminant == 0) {
             double root = -b / (2 * a);
-            roots.add(Math.ceil(root));
-            roots.add(Math.ceil(root));
+            roots.add(root);
+            roots.add(root);
         }
 
         return roots;
