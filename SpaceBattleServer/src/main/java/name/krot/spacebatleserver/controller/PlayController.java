@@ -33,6 +33,7 @@ public class PlayController {
     @PostMapping(path = "/move", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     @Operation(summary = "Передвинуть корабль")
+    @Deprecated
     public void moveSpaceship(@RequestBody @Validated({SpaceShip.class}) SpaceShip spaceship) {
         log.info(String.valueOf(spaceship));
     }
@@ -40,6 +41,7 @@ public class PlayController {
     @PostMapping(path = "/rotate", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     @Operation(summary = "Повернуть корабль")
+    @Deprecated
     public void rotateSpaceship(@RequestBody @Validated({SpaceShip.class}) SpaceShip spaceship) {
         log.info(String.valueOf(spaceship));
     }
