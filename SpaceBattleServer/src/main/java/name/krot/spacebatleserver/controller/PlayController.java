@@ -2,10 +2,13 @@ package name.krot.spacebatleserver.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import name.krot.spacebatleserver.action.Command;
 import name.krot.spacebatleserver.action.MoveCommand;
+import name.krot.spacebatleserver.action.RotateCommand;
 import name.krot.spacebatleserver.model.SpaceShip;
 import name.krot.spacebatleserver.service.SpaceShipService;
 import org.springframework.http.HttpStatus;
@@ -50,8 +53,11 @@ public class PlayController {
     @PostMapping(path = "/rotate", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     @Operation(summary = "Повернуть корабль")
-    @Deprecated
-    public void rotateSpaceship(@RequestBody @Validated({SpaceShip.class}) SpaceShip spaceship) {
-        log.info(String.valueOf(spaceship));
+    public void rotateSpaceship(@RequestBody @Max(359) @Min(0) int angular,
+                                @RequestParam UUID spaceshipUUID) {
+        log.info("/rotate angular = {}, spaceshipUUID= {}", angular, spaceshipUUID);
+        SpaceShip spaceShip = spaceShipService.find(spaceshipUUID).orElseThrow();
+        commandConsumer.accept(RotateCommand.createCommand(spaceShip, angular));
+
     }
 }

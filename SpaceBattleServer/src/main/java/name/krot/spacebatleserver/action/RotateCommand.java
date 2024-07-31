@@ -12,4 +12,8 @@ public class RotateCommand implements Command{
     public void execute() {
         rotatable.setAngular(angular);
     }
+
+    public static RotateCommand createCommand(Rotatable rotatable, int angular) {
+        return new RotateCommand(rotatable, angular);
+    }
 }
