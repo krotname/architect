@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/spaceship")
@@ -26,6 +26,8 @@ import java.util.UUID;
 public class PlayController {
 
     private final SpaceShipService spaceShipService;
+
+    private final Consumer<Command> commandConsumer = Command::execute;
 
     @GetMapping(path = "/info")
     @Operation(summary = "Запросить инфо о кораблях")
@@ -42,8 +44,7 @@ public class PlayController {
                               @RequestParam UUID spaceshipUUID) {
         log.info("/move point = {}, spaceshipUUID= {}",  point, spaceshipUUID);
         SpaceShip spaceShip = spaceShipService.find(spaceshipUUID).orElseThrow();
-        Command command = new MoveCommand(spaceShip, point);
-        command.execute();
+        commandConsumer.accept(MoveCommand.createCommand(spaceShip, point));
     }
 
     @PostMapping(path = "/rotate", consumes = MediaType.APPLICATION_JSON_VALUE)
