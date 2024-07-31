@@ -2,8 +2,8 @@ package name.krot.spacebatleserver.model;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import name.krot.spacebatleserver.model.action.Movable;
-import name.krot.spacebatleserver.model.action.Rotatable;
+import name.krot.spacebatleserver.action.Movable;
+import name.krot.spacebatleserver.action.Rotatable;
 
 import java.awt.*;
 import java.util.UUID;

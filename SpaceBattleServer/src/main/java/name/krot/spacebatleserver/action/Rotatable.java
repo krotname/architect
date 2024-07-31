@@ -1,4 +1,4 @@
-package name.krot.spacebatleserver.model.action;
+package name.krot.spacebatleserver.action;
 
 public interface Rotatable {
     int getAngular();
