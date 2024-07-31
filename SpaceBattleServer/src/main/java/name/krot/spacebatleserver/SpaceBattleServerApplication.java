@@ -54,6 +54,8 @@ public class SpaceBattleServerApplication {
 	 * Задание считается принятым, если набрано не менее 7 баллов.
 	 */
 
+	// http://localhost:8099/swagger-ui/index.html#/PlayController/infoSpaceship
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpaceBattleServerApplication.class, args);
 	}
