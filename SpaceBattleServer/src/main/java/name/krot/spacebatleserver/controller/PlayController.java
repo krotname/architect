@@ -30,7 +30,7 @@ public class PlayController {
 
     private final SpaceShipService spaceShipService;
 
-    private final Consumer<Command> commandConsumer = Command::execute;
+    private final Consumer<Command> commandConsumer;
 
     @GetMapping(path = "/info")
     @Operation(summary = "Запросить инфо о кораблях")
@@ -48,6 +48,7 @@ public class PlayController {
         log.info("/move point = {}, spaceshipUUID= {}",  point, spaceshipUUID);
         SpaceShip spaceShip = spaceShipService.find(spaceshipUUID).orElseThrow();
         commandConsumer.accept(MoveCommand.createCommand(spaceShip, point));
+        spaceShipService.save(spaceShip);
     }
 
     @PostMapping(path = "/rotate", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -58,6 +59,6 @@ public class PlayController {
         log.info("/rotate angular = {}, spaceshipUUID= {}", angular, spaceshipUUID);
         SpaceShip spaceShip = spaceShipService.find(spaceshipUUID).orElseThrow();
         commandConsumer.accept(RotateCommand.createCommand(spaceShip, angular));
-
+        spaceShipService.save(spaceShip);
     }
 }
