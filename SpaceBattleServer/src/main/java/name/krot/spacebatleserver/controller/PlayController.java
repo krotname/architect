@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+// http://localhost:8099/swagger-ui/index.html#/PlayController/infoSpaceship
+
 @RestController
 @RequestMapping("/spaceship")
 @RequiredArgsConstructor
@@ -45,9 +47,9 @@ public class PlayController {
     @Operation(summary = "Передвинуть корабль")
     public void moveSpaceship(@RequestBody @Validated({Point.class}) Point point,
                               @RequestParam UUID spaceshipUUID) {
-        log.info("/move point = {}, spaceshipUUID= {}",  point, spaceshipUUID);
+        log.info("/move point = {}, spaceshipUUID= {}", point, spaceshipUUID);
         SpaceShip spaceShip = spaceShipService.find(spaceshipUUID).orElseThrow();
-        commandConsumer.accept(MoveCommand.createCommand(spaceShip, point));
+        acceptWithDoubleRetry(MoveCommand.createCommand(spaceShip, point));
         spaceShipService.save(spaceShip);
     }
 
@@ -58,7 +60,15 @@ public class PlayController {
                                 @RequestParam UUID spaceshipUUID) {
         log.info("/rotate angular = {}, spaceshipUUID= {}", angular, spaceshipUUID);
         SpaceShip spaceShip = spaceShipService.find(spaceshipUUID).orElseThrow();
-        commandConsumer.accept(RotateCommand.createCommand(spaceShip, angular));
+        acceptWithDoubleRetry(RotateCommand.createCommand(spaceShip, angular));
         spaceShipService.save(spaceShip);
+    }
+
+    private void acceptWithDoubleRetry(Command command) {
+        try {
+            commandConsumer.accept(command);
+        } catch (Exception exception) {
+            ManualExceptionHandler.getInstance().handleDoubleRetry(command, exception);
+        }
     }
 }
