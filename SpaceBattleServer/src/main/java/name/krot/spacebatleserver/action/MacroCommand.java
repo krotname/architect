@@ -11,7 +11,7 @@ public class MacroCommand implements Command{
     private final BurnFuelCommand burnFuelCommand;
 
     @Override
-    public void execute() {
+    public void execute() { // todo test
         checkFuelCommand.execute();
         moveCommand.execute();
         burnFuelCommand.execute();

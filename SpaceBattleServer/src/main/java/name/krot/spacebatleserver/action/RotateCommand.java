@@ -7,6 +7,7 @@ public class RotateCommand implements Command {
 
     private final Rotatable rotatable;
     private final int deltaAngular;
+    private int instantaneousVelocityVector;  // todo меняет вектор мгновенной скорости
 
     @Override
     public void execute() {
