@@ -18,6 +18,7 @@ public abstract class MovableRotatableObject implements Movable, Rotatable {
     @Setter
     UUID id;
     Point position;
+    @Setter
     Point velocity;
     int angular;
 
