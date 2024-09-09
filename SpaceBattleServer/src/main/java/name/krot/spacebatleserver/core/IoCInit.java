@@ -10,7 +10,6 @@ public class IoCInit {
 
     public static IoC init() {
         IoC IoC = startEmpty();
-//        IoC.register("MoveCommand", new MoveCommand());
         return IoC;
     }
 
