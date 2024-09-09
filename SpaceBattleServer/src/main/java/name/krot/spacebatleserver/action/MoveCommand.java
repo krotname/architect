@@ -2,6 +2,7 @@ package name.krot.spacebatleserver.action;
 
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import name.krot.spacebatleserver.core.IoC;
 
 import java.awt.*;
 
@@ -12,6 +13,8 @@ public class MoveCommand implements Command {
     private final Movable movable;
     private final int deltaX;
     private final int deltaY;
+    private static final IoC<Command> di = IoC.getCommandInstance();
+
 
     @Override
     public void execute() {
@@ -21,7 +24,7 @@ public class MoveCommand implements Command {
         movable.setPosition(point);
     }
 
-    public static MoveCommand createCommand(Movable movable, int deltaX, int deltaY) {
-        return new MoveCommand(movable, deltaX, deltaY);
+    public static Command createCommand(Movable movable, int deltaX, int deltaY) {
+        return di.resolve("MoveCommand", movable, deltaX, deltaY);
     }
 }
