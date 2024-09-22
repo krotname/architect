@@ -1,13 +1,16 @@
 package name.krot.spacebatleserver.action;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class RotateCommand implements Command {
 
-    private final Rotatable rotatable;
-    private final int deltaAngular;
-    private int instantaneousVelocityVector;  // todo меняет вектор мгновенной скорости
+    private Rotatable rotatable;
+    private int deltaAngular;
+//    private int instantaneousVelocityVector;  // todo меняет вектор мгновенной скорости
 
     @Override
     public void execute() {
