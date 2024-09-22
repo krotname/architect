@@ -42,10 +42,10 @@ public class ScopedIoCContainer extends IoCContainer {
     static class SingletonHolder {
         private SingletonHolder() {
         }
-        public static final IoCContainer HOLDER_INSTANCE = new ScopedIoCContainer();
+        public static final ScopedIoCContainer HOLDER_INSTANCE = new ScopedIoCContainer();
     }
 
-    public static IoCContainer getIoCInstance() {
+    public static ScopedIoCContainer getIoCInstance() {
         return SingletonHolder.HOLDER_INSTANCE;
     }
 }

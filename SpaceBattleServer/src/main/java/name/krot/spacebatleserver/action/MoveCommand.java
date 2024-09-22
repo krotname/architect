@@ -2,8 +2,8 @@ package name.krot.spacebatleserver.action;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import name.krot.spacebatleserver.core.IoCContainer;
 import name.krot.spacebatleserver.core.ScopedIoCContainer;
 
 import java.awt.*;
@@ -11,6 +11,7 @@ import java.awt.*;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Getter
 public class MoveCommand implements Command {
 
     static {
