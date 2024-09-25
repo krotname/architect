@@ -1,17 +1,26 @@
 package name.krot.spacebatleserver.action;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import name.krot.spacebatleserver.core.ScopedIoCContainer;
 
 import java.awt.*;
 
 @Builder
 @RequiredArgsConstructor
+@AllArgsConstructor
+@Getter
 public class MoveCommand implements Command {
 
-    private final Movable movable;
-    private final int deltaX;
-    private final int deltaY;
+    static {
+        ScopedIoCContainer.getIoCInstance().register("MoveCommand", args -> new MoveCommand((Movable) args[0], (Integer) args[1], (Integer) args[2]));
+    }
+
+    private Movable movable;
+    private int deltaX;
+    private int deltaY;
 
     @Override
     public void execute() {
@@ -21,7 +30,8 @@ public class MoveCommand implements Command {
         movable.setPosition(point);
     }
 
-    public static MoveCommand createCommand(Movable movable, int deltaX, int deltaY) {
-        return new MoveCommand(movable, deltaX, deltaY);
+    public static Command createCommand(Movable movable, int deltaX, int deltaY) {
+
+        return ScopedIoCContainer.getIoCInstance().resolve("MoveCommand", movable, deltaX, deltaY);
     }
 }
