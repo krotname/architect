@@ -7,11 +7,10 @@ import name.krot.spacebatleserver.action.UObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.awt.*;
-import java.util.Vector;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -19,8 +18,8 @@ import static org.mockito.Mockito.*;
 class AdapterFactoryTest {
 
     private UObject mockUObject;
-    private static IoCContainer mockIoC = ScopedIoCContainer.getIoCInstance();
-
+    @Mock
+    private static IoCContainer mockIoC;
 
     @BeforeEach
     public void setUp() {
@@ -30,19 +29,22 @@ class AdapterFactoryTest {
         // Мокаем IoC контейнер для имитации вызовов
         mockIoC = mock(IoCContainer.class);
 
-        // Подготавливаем резолвинг в IoC контейнере для методов интерфейса IMovable
-        when(mockIoC.resolve("Spaceship.Operations.Movable:getposition.get", mockUObject))
+        // Подготавливаем резолвинг в IoC контейнере для методов интерфейса Movable
+        when(mockIoC.resolve(eq("Spaceship.Operations.Movable:getposition.get"), eq(mockUObject)))
                 .thenReturn(new Point(1, 1));
 
-        when(mockIoC.resolve("Spaceship.Operations.Movable:getvelocity.get", mockUObject))
-                .thenReturn(new Point(0,  10));
+        when(mockIoC.resolve(eq("Spaceship.Operations.Movable:getvelocity.get"), eq(mockUObject)))
+                .thenReturn(new Point(0, 10));
 
-        doNothing().when(mockIoC).resolve("Spaceship.Operations.IMovable:setposition.set", mockUObject, any(Vector.class));
+        // Вместо doNothing() для void метода используем when().thenAnswer()
+        when(mockIoC.resolve(eq("Spaceship.Operations.Movable:setposition.set"), eq(mockUObject), any(Point.class)))
+                .thenAnswer(invocation -> null); // Ничего не делаем, просто возвращаем null для void метода
     }
+
 
     @Test
     public void testGetPosition() {
-        // Создаем адаптер для IMovable
+        // Создаем адаптер для Movable
         Movable adapter = AdapterFactory.createAdapter(Movable.class, mockUObject);
 
         // Вызываем метод getPosition и проверяем, что возвращается корректное значение
@@ -52,35 +54,35 @@ class AdapterFactoryTest {
         assertEquals(1, position.getY());
 
         // Проверяем, что IoC-контейнер был вызван с правильными параметрами
-        verify(mockIoC).resolve("Spaceship.Operations.IMovable:getposition.get", mockUObject);
+        verify(mockIoC).resolve(eq("Spaceship.Operations.Movable:getposition.get"), eq(mockUObject));
     }
 
     @Test
     public void testSetPosition() {
-        // Создаем адаптер для IMovable
+        // Создаем адаптер для Movable
         Movable adapter = AdapterFactory.createAdapter(Movable.class, mockUObject);
 
-        // Вызываем метод setPosition с новым значением Vector
+        // Вызываем метод setPosition с новым значением Point
         Point newPosition = new Point(5, 5);
         adapter.setPosition(newPosition);
 
         // Проверяем, что вызов метода IoC прошел с правильными аргументами
-        verify(mockIoC).resolve("Spaceship.Operations.IMovable:setposition.set", mockUObject, newPosition);
+        verify(mockIoC).resolve(eq("Spaceship.Operations.Movable:setposition.set"), eq(mockUObject), eq(newPosition));
     }
 
     @Test
     public void testGetVelocity() {
-        // Создаем адаптер для IMovable
+        // Создаем адаптер для Movable
         Movable adapter = AdapterFactory.createAdapter(Movable.class, mockUObject);
 
         // Вызываем метод getVelocity и проверяем результат
         Point velocity = adapter.getVelocity();
         assertNotNull(velocity);
         assertEquals(0, velocity.getX());
-        assertEquals(0, velocity.getY());
+        assertEquals(10, velocity.getY());
 
         // Проверяем вызов IoC-контейнера
-        verify(mockIoC).resolve("Spaceship.Operations.IMovable:getvelocity.get", mockUObject);
+        verify(mockIoC).resolve(eq("Spaceship.Operations.Movable:getvelocity.get"), eq(mockUObject));
     }
 
     @Test
