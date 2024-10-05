@@ -1,0 +1,9 @@
+-- insert into battles values(1, 'Tom');
+-- insert into battles values(2, 'Petr');
+-- insert into battles values(3, 'Ivan');
+--
+-- insert into users values(3, 1, 'The Tartar Steppe');
+-- insert into users values(2, 2, 'Poem Strip');
+-- insert into users values(2, 3, 'Poem Strip 2');
+-- insert into users values(2, 4, 'Poem Strip 3');
+-- insert into users values(1, 5, 'Restless Nights: Selected Stories of Dino Buzzati');
